@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedVision.ai — AI Medical Image Analysis</title>
+    <meta name="description"
+        content="AI-powered medical image analysis using CLIP, LLaMA, and FAISS. Upload X-rays and MRIs for intelligent diagnostic assistance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+    <!-- Background effects -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="18" stroke="url(#logoGrad)" stroke-width="2.5" />
+                        <path d="M14 20h12M20 14v12" stroke="url(#logoGrad)" stroke-width="2.5"
+                            stroke-linecap="round" />
+                        <circle cx="20" cy="20" r="6" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.6" />
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                                <stop stop-color="#6366f1" />
+                                <stop offset="1" stop-color="#06b6d4" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-name">MedVision</span><span class="logo-dot">.ai</span>
+                    <span class="logo-tagline">Multimodal Medical Intelligence</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Initializing...</span>
+                </div>
+                <button class="btn-icon" id="flowBtn" title="Architecture Flow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                </button>
+                <button class="btn-icon" id="infoBtn" title="System Info">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Main App Area -->
+        <div class="chat-layout">
+            <!-- Left Panel: Image Viewer -->
+            <div class="image-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <circle cx="8.5" cy="8.5" r="1.5" />
+                            <path d="M21 15l-5-5L5 21" />
+                        </svg>
+                        Medical Image
+                    </h2>
+                </div>
+
+                <div class="dropzone" id="dropzone">
+                    <div class="dropzone-content" id="dropzoneContent">
+                        <div class="dropzone-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" y1="3" x2="12" y2="15" />
+                            </svg>
+                        </div>
+                        <p class="dropzone-text">Drag & drop X-ray, MRI, or CT scan</p>
+                        <p class="dropzone-subtext">Supports DICOM, PNG, JPG</p>
+                    </div>
+                    <div class="dropzone-preview" id="dropzonePreview" style="display:none;">
+                        <img id="previewImage" alt="Uploaded medical image" />
+                        <div class="preview-overlay">
+                            <button class="btn-remove" id="removeImage" title="Remove image">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg>
+                            </button>
+                            <span class="preview-badge" id="modalityBadge"></span>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*,.dcm" hidden>
+                </div>
+
+                <div class="image-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Vision Encoder</span>
+                        <span class="meta-value">CLIP ViT-B/32</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Reasoning</span>
+                        <span class="meta-value" id="modelNameDisplay">GPT-4o / Llama 3</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Chat Interface -->
+            <div class="chat-panel">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <span class="chat-icon">✦</span>
+                        MedVision AI Assistant
+                    </div>
+                    <!-- Duplicate infoBtn removed -->
+                </div>
+
+                <div class="chat-history" id="chatHistory">
+                    <!-- Welcome Message -->
+                    <div class="chat-message assistant">
+                        <div class="chat-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
+                                <path d="M12 2a10 10 0 0 1 10 10h-2A8 8 0 0 0 12 4V2z" />
+                                <path d="M2.05 12a10 10 0 0 1 10-10v2a8 8 0 1 0 0 16v-2a10 10 0 0 1-10-6z" />
+                            </svg>
+                        </div>
+                        <div class="chat-bubble">
+                            <p>Hello! I am MedVision AI. I can answer general medical questions or analyze images.</p>
+                            <p>Upload a medical image (X-ray, MRI, CT) for analysis, or just ask a question below.</p>
+                            <p><em>Note: This is an AI research tool, not a medical device.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="quick-questions">
+                        <button class="quick-btn" data-question="What do you see in this image?">General
+                            Analysis</button>
+                        <button class="quick-btn" data-question="Are there any abnormalities?">Find
+                            Abnormalities</button>
+                        <button class="quick-btn" data-question="What are the symptoms of pneumonia?">Medical
+                            Info</button>
+                    </div>
+
+                    <div class="input-wrapper" id="inputWrapper">
+                        <div id="imageAttachmentBadge" class="image-attachment" style="display:none;">
+                            <span class="attachment-icon">🖼️</span>
+                            <span class="attachment-text">Image attached</span>
+                            <button class="btn-clear-attachment" id="clearAttachment">×</button>
+                        </div>
+                        <textarea id="questionInput" placeholder="Ask a medical question or upload an image..."
+                            rows="1"></textarea>
+                        <button class="btn-send" id="analyzeBtn" disabled>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Info Modal -->
+    <div class="modal-overlay" id="infoModal" style="display:none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">System Information</h3>
+                <button class="btn-icon" id="closeModal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <div class="loading-skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line short"></div>
+                    <div class="skeleton-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stack Overlay -->
+    <div class="tech-stack-overlay">
+        <div class="tech-badges">
+            <div class="tech-badge" data-tooltip="High-performance Python web framework"><span>⚡</span> FastAPI</div>
+            <div class="tech-badge" data-tooltip="Vision Transformer for Image Embedding"><span>👁️</span> CLIP ViT-B/32
+            </div>
+            <div class="tech-badge" data-tooltip="Large Language Model for Reasoning"><span>🧠</span> LLaMA 3 / GPT-4
+            </div>
+            <div class="tech-badge" data-tooltip="Vector Database for RAG (Similar Cases)"><span>🔍</span> FAISS RAG
+            </div>
+            <div class="tech-badge" data-tooltip="Orchestration Pipeline"><span>🔗</span> LangChain</div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-disclaimer">
+                &#x26A0;&#xFE0F; <strong>Disclaimer:</strong> MedVision.ai is an AI research tool. All findings must be
+                reviewed by qualified medical professionals before clinical use.
+            </p>
+            <p class="footer-tech">
+                Built with PyTorch &bull; CLIP &bull; LLaMA &bull; LangChain &bull; FAISS &bull; FastAPI
+            </p>
+        </div>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>

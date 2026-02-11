@@ -1,0 +1,19 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.0.1, pluggy-1.6.0 -- C:\Users\hp\AppData\Local\Programs\Python\Python311\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\hp\Desktop\MedVision.ai
+plugins: anyio-3.7.1
+collecting ... collected 0 items / 1 error
+
+=================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_api.py ______________________
+tests\test_api.py:32: in <module>
+    class TestAPI:
+tests\test_api.py:79: in TestAPI
+    assert data["total_cases"] >= 0
+           ^^^^
+E   NameError: name 'data' is not defined
+=========================== short test summary info ===========================
+ERROR tests/test_api.py - NameError: name 'data' is not defined
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+============================== 1 error in 0.54s ===============================

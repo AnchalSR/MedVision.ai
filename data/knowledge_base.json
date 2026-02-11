@@ -1,0 +1,406 @@
+{
+  "version": "1.0",
+  "description": "MedVision.ai Medical Knowledge Base - Common radiological findings",
+  "cases": [
+    {
+      "id": "case_001",
+      "finding": "Normal chest anatomy",
+      "description": "PA chest radiograph showing normal cardiomediastinal silhouette, clear bilateral lung fields, normal hilar structures, and no acute osseous abnormalities. The trachea is midline and the diaphragm contours are normal.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "normal"
+    },
+    {
+      "id": "case_002",
+      "finding": "Pneumonia - Right lower lobe",
+      "description": "Chest X-ray demonstrating dense airspace opacity in the right lower lobe with air bronchograms, consistent with lobar pneumonia. The right hemidiaphragm is partially obscured.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_003",
+      "finding": "Cardiomegaly",
+      "description": "Frontal chest radiograph showing enlargement of the cardiac silhouette with a cardiothoracic ratio exceeding 0.5, suggestive of cardiomegaly. Mild pulmonary vascular congestion noted.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_004",
+      "finding": "Pleural effusion - bilateral",
+      "description": "Chest X-ray demonstrating bilateral blunting of the costophrenic angles with meniscus signs, consistent with bilateral pleural effusions. Moderate in size on the right, small on the left.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_005",
+      "finding": "Pneumothorax - left",
+      "description": "Upright chest radiograph showing absence of lung markings in the left apex with a visible visceral pleural line, consistent with a left-sided pneumothorax approximately 20% in size.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "high"
+    },
+    {
+      "id": "case_006",
+      "finding": "Pulmonary nodule",
+      "description": "Chest X-ray showing a well-defined, round opacity in the right upper lobe measuring approximately 1.5 cm. Margins appear smooth. Follow-up CT recommended for further characterization.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_007",
+      "finding": "Rib fracture",
+      "description": "Chest radiograph demonstrating a non-displaced fracture of the right 7th rib laterally. No associated pneumothorax or pleural effusion. Soft tissue swelling noted at the fracture site.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_008",
+      "finding": "Atelectasis - left lower lobe",
+      "description": "PA chest X-ray showing increased opacity behind the left heart border with volume loss and elevation of the left hemidiaphragm, consistent with left lower lobe atelectasis.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "mild"
+    },
+    {
+      "id": "case_009",
+      "finding": "COPD changes",
+      "description": "Chest radiograph showing hyperinflated lungs with flattened diaphragms, increased retrosternal airspace, and prominent interstitial markings consistent with chronic obstructive pulmonary disease.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_010",
+      "finding": "Pulmonary edema",
+      "description": "Chest X-ray demonstrating bilateral perihilar haziness with Kerley B lines and peribronchial cuffing, consistent with pulmonary edema. Mild cardiomegaly also noted.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "high"
+    },
+    {
+      "id": "case_011",
+      "finding": "Brain MRI - Normal",
+      "description": "Axial T2-weighted MRI of the brain showing normal grey-white matter differentiation, normal ventricular system, no midline shift, and no acute intracranial pathology identified.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "normal"
+    },
+    {
+      "id": "case_012",
+      "finding": "Brain tumor - Glioblastoma",
+      "description": "MRI brain with contrast showing a large heterogeneously enhancing mass in the right temporal lobe with surrounding vasogenic edema and mass effect on the lateral ventricle, suspicious for high-grade glioma.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "high"
+    },
+    {
+      "id": "case_013",
+      "finding": "Acute ischemic stroke",
+      "description": "Diffusion-weighted MRI showing restricted diffusion in the left middle cerebral artery territory, consistent with acute ischemic infarction. ADC map confirms true restricted diffusion.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "critical"
+    },
+    {
+      "id": "case_014",
+      "finding": "Multiple sclerosis plaques",
+      "description": "T2 FLAIR MRI of the brain demonstrating multiple periventricular and juxtacortical hyperintense lesions, with ovoid morphology perpendicular to the ventricles (Dawson fingers), consistent with demyelinating disease.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_015",
+      "finding": "Herniated disc - L4/L5",
+      "description": "Sagittal T2-weighted MRI of the lumbar spine showing posterior disc herniation at L4-L5 with compression of the traversing L5 nerve root. Mild disc desiccation at multiple levels.",
+      "modality": "MRI",
+      "body_part": "spine",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_016",
+      "finding": "ACL tear",
+      "description": "Sagittal MRI of the knee showing complete discontinuity of the anterior cruciate ligament with surrounding edema and joint effusion. The PCL appears intact.",
+      "modality": "MRI",
+      "body_part": "knee",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_017",
+      "finding": "Rotator cuff tear",
+      "description": "Coronal T2 fat-sat MRI of the shoulder demonstrating a full-thickness tear of the supraspinatus tendon with 1.5 cm retraction. Moderate subacromial-subdeltoid bursitis noted.",
+      "modality": "MRI",
+      "body_part": "shoulder",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_018",
+      "finding": "Liver mass - HCC",
+      "description": "Contrast-enhanced MRI of the abdomen showing arterial enhancement and venous washout of a 4 cm mass in the right hepatic lobe, consistent with hepatocellular carcinoma in a background of cirrhosis.",
+      "modality": "MRI",
+      "body_part": "abdomen",
+      "severity": "high"
+    },
+    {
+      "id": "case_019",
+      "finding": "Tuberculosis",
+      "description": "Chest X-ray showing upper lobe fibronodular opacities bilaterally with possible cavitation in the right apex. Findings are concerning for active or reactivation pulmonary tuberculosis.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "high"
+    },
+    {
+      "id": "case_020",
+      "finding": "Scoliosis",
+      "description": "AP full-spine radiograph demonstrating a right thoracic scoliosis with a Cobb angle of approximately 25 degrees centered at T8. Mild rotational deformity of the vertebral bodies noted.",
+      "modality": "X-ray",
+      "body_part": "spine",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_021",
+      "finding": "Meningioma",
+      "description": "Post-contrast MRI of the brain showing a well-defined, homogeneously enhancing extra-axial mass along the right convexity with a dural tail sign, consistent with meningioma.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_022",
+      "finding": "Hiatal hernia",
+      "description": "Lateral chest radiograph showing a retrocardiac soft tissue density with an air-fluid level projecting above the diaphragm, consistent with a hiatal hernia.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "mild"
+    },
+    {
+      "id": "case_023",
+      "finding": "Pericardial effusion",
+      "description": "Chest X-ray showing a flask-shaped cardiac silhouette with smooth borders and clear lung fields, suggestive of pericardial effusion. Echocardiographic correlation recommended.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_024",
+      "finding": "Meniscal tear",
+      "description": "Sagittal MRI of the knee showing a complex tear of the posterior horn of the medial meniscus extending to the inferior articular surface. Moderate joint effusion present.",
+      "modality": "MRI",
+      "body_part": "knee",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_025",
+      "finding": "Spinal stenosis",
+      "description": "Axial T2 MRI at L4-L5 showing severe central canal stenosis with ligamentum flavum hypertrophy and facet joint arthropathy causing significant thecal sac compression.",
+      "modality": "MRI",
+      "body_part": "spine",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_026",
+      "finding": "Lung mass",
+      "description": "Chest radiograph showing a large, irregularly marginated mass in the right upper lobe measuring approximately 5 cm. Mediastinal widening suggests possible lymphadenopathy. CT staging recommended.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "high"
+    },
+    {
+      "id": "case_027",
+      "finding": "Hydrocephalus",
+      "description": "MRI brain showing marked dilatation of all four ventricles with periventricular signal change on T2/FLAIR, consistent with communicating hydrocephalus. Transependymal CSF flow noted.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "high"
+    },
+    {
+      "id": "case_028",
+      "finding": "Osteoarthritis - knee",
+      "description": "AP and lateral knee radiographs showing joint space narrowing of the medial compartment with subchondral sclerosis, osteophyte formation, and small joint effusion consistent with osteoarthritis.",
+      "modality": "X-ray",
+      "body_part": "knee",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_029",
+      "finding": "Subdural hematoma",
+      "description": "Non-contrast CT head showing a crescentic hyperdense collection along the left frontoparietal convexity with mild midline shift to the right, consistent with acute subdural hematoma.",
+      "modality": "CT",
+      "body_part": "brain",
+      "severity": "critical"
+    },
+    {
+      "id": "case_030",
+      "finding": "Aortic aneurysm",
+      "description": "Chest X-ray showing widening of the mediastinum and enlargement of the aortic knob. CTA recommended to evaluate for thoracic aortic aneurysm.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "high"
+    },
+    {
+      "id": "case_031",
+      "finding": "Cervical disc herniation",
+      "description": "Sagittal T2 MRI of the cervical spine showing a large posterior disc herniation at C5-C6 with cord compression and intramedullary signal change suggesting myelopathy.",
+      "modality": "MRI",
+      "body_part": "spine",
+      "severity": "high"
+    },
+    {
+      "id": "case_032",
+      "finding": "Shoulder dislocation",
+      "description": "AP shoulder radiograph showing anterior dislocation of the humeral head from the glenoid fossa. No associated fracture of the greater tuberosity identified. Hill-Sachs lesion cannot be excluded.",
+      "modality": "X-ray",
+      "body_part": "shoulder",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_033",
+      "finding": "Breast mass",
+      "description": "MRI of the breast showing an irregular enhancing mass in the upper outer quadrant with washout kinetics on dynamic sequences, suspicious for malignancy. BI-RADS 4.",
+      "modality": "MRI",
+      "body_part": "breast",
+      "severity": "high"
+    },
+    {
+      "id": "case_034",
+      "finding": "Normal knee MRI",
+      "description": "MRI of the knee showing intact cruciate and collateral ligaments, normal menisci, normal articular cartilage, and no significant joint effusion. No bone marrow edema identified.",
+      "modality": "MRI",
+      "body_part": "knee",
+      "severity": "normal"
+    },
+    {
+      "id": "case_035",
+      "finding": "Colles fracture",
+      "description": "Lateral wrist radiograph demonstrating a distal radius fracture with dorsal angulation and displacement, consistent with a Colles fracture. No ulnar styloid fracture identified.",
+      "modality": "X-ray",
+      "body_part": "wrist",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_036",
+      "finding": "Pituitary adenoma",
+      "description": "Sagittal post-contrast MRI of the sella showing a 12mm enhancing mass arising from the pituitary gland with suprasellar extension and mild compression of the optic chiasm, consistent with pituitary macroadenoma.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_037",
+      "finding": "Interstitial lung disease",
+      "description": "Chest X-ray showing bilateral reticular opacities predominantly in the lower lobes with reduced lung volumes, consistent with interstitial lung disease. HRCT recommended for further evaluation.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_038",
+      "finding": "Ankle fracture",
+      "description": "AP and lateral ankle radiographs showing a displaced fracture of the lateral malleolus with widening of the medial clear space, consistent with a Weber B ankle fracture with possible deltoid ligament injury.",
+      "modality": "X-ray",
+      "body_part": "ankle",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_039",
+      "finding": "Cerebral aneurysm",
+      "description": "MRA of the brain showing a 7mm saccular aneurysm arising from the anterior communicating artery complex. No evidence of recent hemorrhage on accompanying sequences.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "high"
+    },
+    {
+      "id": "case_040",
+      "finding": "Emphysema",
+      "description": "Chest radiograph showing bilateral upper lobe predominant hyperinflation with bullous changes, flattened hemidiaphragms, and increased AP diameter consistent with centrilobular emphysema.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_041",
+      "finding": "Renal mass",
+      "description": "MRI abdomen showing a 3.5 cm enhancing solid mass arising from the upper pole of the left kidney with heterogeneous signal on T2-weighted sequences, suspicious for renal cell carcinoma.",
+      "modality": "MRI",
+      "body_part": "abdomen",
+      "severity": "high"
+    },
+    {
+      "id": "case_042",
+      "finding": "Normal lumbar spine",
+      "description": "MRI of the lumbar spine showing normal vertebral body height and signal, intact intervertebral discs with normal hydration, patent spinal canal, and no compression of neural elements.",
+      "modality": "MRI",
+      "body_part": "spine",
+      "severity": "normal"
+    },
+    {
+      "id": "case_043",
+      "finding": "Tension pneumothorax",
+      "description": "Supine chest radiograph showing complete opacification of the left hemithorax with mediastinal shift to the right and inversion of the left hemidiaphragm, consistent with tension pneumothorax.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "critical"
+    },
+    {
+      "id": "case_044",
+      "finding": "Appendicitis",
+      "description": "MRI abdomen showing a dilated, fluid-filled appendix measuring 12mm with periappendiceal fat stranding and enhancement, consistent with acute appendicitis. No perforation identified.",
+      "modality": "MRI",
+      "body_part": "abdomen",
+      "severity": "high"
+    },
+    {
+      "id": "case_045",
+      "finding": "Hip fracture",
+      "description": "AP pelvis radiograph showing a displaced intracapsular fracture of the left femoral neck with superior displacement of the femoral shaft. Garden classification type III.",
+      "modality": "X-ray",
+      "body_part": "hip",
+      "severity": "high"
+    },
+    {
+      "id": "case_046",
+      "finding": "Acoustic neuroma",
+      "description": "Post-contrast MRI showing a 2cm enhancing mass in the left cerebellopontine angle extending into the internal auditory canal, consistent with vestibular schwannoma (acoustic neuroma).",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_047",
+      "finding": "Pneumomediastinum",
+      "description": "Chest X-ray demonstrating linear lucencies outlining the mediastinal structures and extending into the soft tissues of the neck, consistent with pneumomediastinum. No pneumothorax identified.",
+      "modality": "X-ray",
+      "body_part": "chest",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_048",
+      "finding": "Ovarian cyst",
+      "description": "Pelvic MRI showing a 5cm well-defined cystic lesion arising from the right ovary with thin walls, no solid component, and homogeneous T2 bright signal, consistent with a simple ovarian cyst.",
+      "modality": "MRI",
+      "body_part": "pelvis",
+      "severity": "mild"
+    },
+    {
+      "id": "case_049",
+      "finding": "Vertebral compression fracture",
+      "description": "Lateral thoracic spine radiograph showing anterior wedging of T12 vertebral body with approximately 40% height loss, consistent with a compression fracture. MRI recommended to assess acuity.",
+      "modality": "X-ray",
+      "body_part": "spine",
+      "severity": "moderate"
+    },
+    {
+      "id": "case_050",
+      "finding": "Normal brain MRI with contrast",
+      "description": "Post-contrast MRI of the brain showing normal parenchymal signal, no abnormal enhancement, patent dural venous sinuses, normal pituitary gland, and no extra-axial collections.",
+      "modality": "MRI",
+      "body_part": "brain",
+      "severity": "normal"
+    }
+  ]
+}

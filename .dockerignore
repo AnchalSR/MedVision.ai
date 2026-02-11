@@ -1,0 +1,18 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.git
+.gitignore
+.vscode
+.idea
+*.log
+data/
+# Exclude heavy model weights if they are downloaded locally, usually handled by checking if they exist
+# But data/ is excluded above so that covers it.
+# We might want to keep sample_images if we want them in the image for demo purposes.
+!data/sample_images/
