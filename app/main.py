@@ -16,8 +16,7 @@ from contextlib import asynccontextmanager
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.routes.api import router as api_router
-from app.routes.websocket import router as ws_router
+from app.routes import router
 
 # Configure logging
 logging.basicConfig(
@@ -107,8 +106,7 @@ static_dir = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 # Routes
-app.include_router(api_router, prefix="/api", tags=["API"])
-app.include_router(ws_router, tags=["WebSocket"])
+app.include_router(router, prefix="/api", tags=["API", "WebSocket"])
 
 # ── VQA Engine (shared instance) ───────────────────────────────────────────
 _vqa_engine = None
@@ -118,7 +116,7 @@ def get_vqa_engine():
     """Get or create the shared VQA engine instance."""
     global _vqa_engine
     if _vqa_engine is None:
-        from core.vqa_engine import VQAEngine
+        from core.pipeline import VQAEngine
         _vqa_engine = VQAEngine()
     return _vqa_engine
 

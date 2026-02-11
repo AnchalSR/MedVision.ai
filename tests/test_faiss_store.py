@@ -13,7 +13,7 @@ class TestFAISSVectorStore:
     """Test suite for the FAISSVectorStore class."""
 
     def setup_method(self):
-        from core.faiss_store import FAISSVectorStore
+        from core.embeddings import FAISSVectorStore
         self.store = FAISSVectorStore(embedding_dim=512, index_path="/tmp/test_faiss")
 
     def test_mock_search_returns_results(self):

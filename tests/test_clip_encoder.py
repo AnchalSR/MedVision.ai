@@ -14,7 +14,7 @@ class TestCLIPEncoder:
     """Test suite for the CLIPEncoder class."""
 
     def setup_method(self):
-        from core.clip_encoder import CLIPEncoder
+        from core.embeddings import CLIPEncoder
         self.encoder = CLIPEncoder()
 
     def test_mock_embedding_shape(self):

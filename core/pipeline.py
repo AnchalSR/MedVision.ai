@@ -1,16 +1,21 @@
 """
-MedVision.ai - LangChain Multimodal Pipeline
-Orchestrates CLIP, FAISS, and LLaMA into a unified reasoning chain.
+MedVision.ai - Pipeline & VQA Engine
+Combines pipeline orchestration and VQA inference interface.
 """
 import logging
-from typing import Dict, List, Optional, Any
+import time
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# MEDVISION PIPELINE
+# ─────────────────────────────────────────────────────────────────────────────
+
 class MedVisionPipeline:
     """
-    LangChain-style pipeline that orchestrates the full VQA workflow:
+    Pipeline that orchestrates the full VQA workflow:
     Image -> CLIP Encoding -> FAISS Retrieval -> LLaMA Reasoning -> Diagnostic Answer.
     """
 
@@ -26,8 +31,7 @@ class MedVisionPipeline:
         if self._initialized:
             return
 
-        from core.clip_encoder import CLIPEncoder
-        from core.faiss_store import FAISSVectorStore
+        from core.embeddings import CLIPEncoder, FAISSVectorStore
         from core.llama_reasoning import LLaMAReasoningEngine
         from core.preprocessor import MedicalImagePreprocessor
 
@@ -95,7 +99,7 @@ class MedVisionPipeline:
         result = {
             "answer": answer,
             "confidence": round(max(0, min(1, confidence)), 3),
-            "retrieved_cases": retrieved_cases[:3],  # Top 3 for display
+            "retrieved_cases": retrieved_cases[:3],
             "modality": modality,
             "image_context": image_context,
             "relevance_score": round(float(relevance_score), 3),
@@ -182,4 +186,109 @@ class MedVisionPipeline:
                 },
             }
 
+        return status
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# VQA ENGINE
+# ─────────────────────────────────────────────────────────────────────────────
+
+class VQAEngine:
+    """
+    Top-level Visual Question Answering engine.
+    Provides a clean, simple API over the MedVision pipeline.
+    """
+
+    def __init__(self):
+        self._pipeline = MedVisionPipeline()
+        self._initialized = False
+        self._query_count = 0
+
+    def initialize(self):
+        """Pre-initialize all models. Call this at startup for faster first query."""
+        if self._initialized:
+            return
+        logger.info("Initializing VQA Engine...")
+        self._pipeline.initialize()
+        self._initialized = True
+        logger.info("VQA Engine ready")
+
+    def answer(self, image_source, question: str) -> Dict[str, Any]:
+        """
+        Answer a question about a medical image.
+
+        Args:
+            image_source: Image file path, bytes, or PIL Image.
+            question: Natural language question about the image.
+
+        Returns:
+            Dict with: answer, confidence, retrieved_cases, modality,
+            image_context, processing_time, query_id.
+        """
+        start_time = time.time()
+        self._query_count += 1
+        query_id = f"q_{self._query_count:06d}"
+
+        logger.info(f"[{query_id}] Processing: '{question[:80]}...'")
+
+        try:
+            result = self._pipeline.run(image_source, question)
+            result["processing_time"] = round(time.time() - start_time, 2)
+            result["query_id"] = query_id
+            result["status"] = "success"
+
+            logger.info(
+                f"[{query_id}] Done in {result['processing_time']}s "
+                f"(confidence: {result['confidence']})"
+            )
+            return result
+
+        except Exception as e:
+            logger.error(f"[{query_id}] Error: {e}")
+            return {
+                "answer": f"An error occurred during analysis: {str(e)}",
+                "confidence": 0.0,
+                "retrieved_cases": [],
+                "modality": "unknown",
+                "image_context": "",
+                "processing_time": round(time.time() - start_time, 2),
+                "query_id": query_id,
+                "status": "error",
+                "error": str(e),
+            }
+
+    def answer_stream(self, image_source, question: str):
+        """
+        Stream an answer to a question about a medical image.
+        Yields dict chunks: metadata first, then token-by-token answer, then done.
+        """
+        self._query_count += 1
+        query_id = f"q_{self._query_count:06d}"
+        start_time = time.time()
+
+        logger.info(f"[{query_id}] Streaming: '{question[:80]}...'")
+
+        try:
+            for chunk in self._pipeline.run_stream(image_source, question):
+                chunk["query_id"] = query_id
+                if chunk["type"] == "done":
+                    chunk["processing_time"] = round(time.time() - start_time, 2)
+                yield chunk
+        except Exception as e:
+            logger.error(f"[{query_id}] Stream error: {e}")
+            yield {
+                "type": "error",
+                "error": str(e),
+                "query_id": query_id,
+            }
+
+    def get_status(self) -> Dict[str, Any]:
+        """Get engine status and component health."""
+        status = {
+            "engine": "MedVision VQA Engine v1.0",
+            "initialized": self._initialized,
+            "total_queries": self._query_count,
+        }
+        if self._initialized:
+            status["pipeline"] = self._pipeline.get_status()
         return status

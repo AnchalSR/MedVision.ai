@@ -1,20 +1,119 @@
 """
-MedVision.ai - WebSocket Route
-Real-time streaming analysis via WebSocket.
-Uses asyncio.to_thread to avoid blocking the event loop.
+MedVision.ai - API Routes
+REST API and WebSocket endpoints for medical image analysis.
 """
 import asyncio
+import base64
+import io
 import json
 import logging
-import base64
 import queue
 import threading
+from pathlib import Path
+from typing import Optional
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile, WebSocket, WebSocketDisconnect
+from fastapi.responses import FileResponse, JSONResponse
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# REST API ENDPOINTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+@router.get("/health")
+async def health_check():
+    """Health check with model status."""
+    from app.main import get_vqa_engine
+    engine = get_vqa_engine()
+    status = engine.get_status()
+    return {
+        "status": "healthy",
+        "engine": status,
+    }
+
+
+@router.post("/analyze")
+async def analyze_image(
+    image: UploadFile = File(...),
+    question: str = Form(default="What do you see in this medical image? Provide a detailed analysis."),
+):
+    """
+    Analyze a medical image with a question.
+
+    - **image**: Medical image file (PNG, JPG, JPEG, BMP, TIFF)
+    - **question**: Question about the image
+    """
+    # Validate file type
+    allowed_types = {"image/png", "image/jpeg", "image/jpg", "image/bmp", "image/tiff"}
+    if image.content_type and image.content_type not in allowed_types:
+        logger.warning(f"Unusual content type: {image.content_type}")
+
+    try:
+        # Read image bytes
+        image_bytes = await image.read()
+
+        if len(image_bytes) == 0:
+            raise HTTPException(status_code=400, detail="Empty image file")
+
+        if len(image_bytes) > 20 * 1024 * 1024:  # 20MB limit
+            raise HTTPException(status_code=413, detail="Image too large (max 20MB)")
+
+        # Run VQA pipeline in a thread to avoid blocking the event loop
+        from app.main import get_vqa_engine
+        engine = get_vqa_engine()
+        result = await asyncio.to_thread(engine.answer, image_bytes, question)
+
+        return JSONResponse(content=result)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Analysis error: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+
+
+@router.get("/sample-images")
+async def list_sample_images():
+    """List available sample/demo images."""
+    from config.settings import SAMPLE_IMAGES_DIR
+
+    samples = []
+    if SAMPLE_IMAGES_DIR.exists():
+        for f in sorted(SAMPLE_IMAGES_DIR.iterdir()):
+            if f.suffix.lower() in {".png", ".jpg", ".jpeg", ".bmp"}:
+                samples.append({
+                    "name": f.stem.replace("_", " ").title(),
+                    "filename": f.name,
+                    "path": f"/api/sample-image/{f.name}",
+                })
+
+    return {"samples": samples}
+
+
+@router.get("/sample-image/{filename}")
+async def get_sample_image(filename: str):
+    """Serve a sample image file."""
+    from config.settings import SAMPLE_IMAGES_DIR
+
+    file_path = SAMPLE_IMAGES_DIR / filename
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="Sample image not found")
+
+    # Security: ensure the file is actually in the sample_images directory
+    try:
+        file_path.relative_to(SAMPLE_IMAGES_DIR)
+    except ValueError:
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    return FileResponse(path=file_path, media_type="image/png")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WEBSOCKET ENDPOINT
+# ─────────────────────────────────────────────────────────────────────────────
 
 @router.websocket("/ws/analyze")
 async def websocket_analyze(websocket: WebSocket):
@@ -55,7 +154,7 @@ async def websocket_analyze(websocket: WebSocket):
                         
                         # Stream from LLM directly
                         for token in llm.generate_stream(question, image_context="", retrieved_cases=[]):
-                             chunk_queue.put({"type": "token", "content": token})
+                            chunk_queue.put({"type": "token", "content": token})
                         
                         chunk_queue.put({"type": "done"})
                         chunk_queue.put(None)

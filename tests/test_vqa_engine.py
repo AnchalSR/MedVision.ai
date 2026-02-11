@@ -14,7 +14,7 @@ class TestVQAEngine:
     """Test suite for the VQAEngine class."""
 
     def setup_method(self):
-        from core.vqa_engine import VQAEngine
+        from core.pipeline import VQAEngine
         self.engine = VQAEngine()
 
     def test_engine_creation(self):
